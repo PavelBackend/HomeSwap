@@ -4,6 +4,7 @@ from django.urls import reverse
 
 class Users(models.Model):
     username = models.CharField(max_length=50, blank=False, null=False, unique=True)
+    slug = models.SlugField(max_length=50, blank=False, null=False, unique=True)
     name = models.CharField(max_length=50, blank=False, null=False)
     surname = models.CharField(max_length=50, blank=True, null=True)
     avatar_url = models.TextField(blank=True, null=True)

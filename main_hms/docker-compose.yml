@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    command: poetry run gunicorn main_hms.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/homeswapd
+    env_file:
+      - .env
