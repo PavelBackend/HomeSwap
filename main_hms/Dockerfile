@@ -20,4 +20,4 @@ COPY . /homeswapd/
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "poetry run gunicorn main_hms.wsgi:application --bind 0.0.0.0:8000"]
+CMD ["sh", "-c", "poetry run daphne -b 0.0.0.0 -p 8000 main_hms.asgi:application"]

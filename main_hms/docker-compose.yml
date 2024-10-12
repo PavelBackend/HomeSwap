@@ -5,7 +5,7 @@ services:
     build: .
     ports:
       - "8000:8000"
-    command: poetry run gunicorn main_hms.wsgi:application --bind 0.0.0.0:8000
+    command: poetry run daphne -b 0.0.0.0 -p 8000 main_hms.asgi:application
     volumes:
       - .:/homeswapd
     env_file:
@@ -17,13 +17,13 @@ services:
       - celery-beat
 
   redis:
-    image: redis
+    image: redis:6
     ports:
       - "6379:6379"
 
   celery:
     build: .
-    command: poetry runcelery -A main_hms worker -l info
+    command: poetry run celery -A main_hms worker -l info
     volumes:
       - .:/homeswapd
     env_file:
