@@ -15,6 +15,11 @@ packaging = "24.1"
 sqlparse = "0.5.1"
 typing-extensions = "4.12.2"
 tzdata = "2024.2"
+celery = "^5.4.0"
+redis = "^5.1.1"
+django-celery-results = "^2.5.1"
+django-celery-beat = "^2.7.0"
+flower = "^2.0.1"
 
 
 [build-system]

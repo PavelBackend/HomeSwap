@@ -24,6 +24,10 @@ INSTALLED_APPS = [
     # my apps
     "posts.apps.PostsConfig",
     "users.apps.UsersConfig",
+
+    #third party apps
+    "django_celery_beat",
+    "django_celery_results",
 ]
 
 MIDDLEWARE = [
@@ -93,3 +97,18 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+#SMTP
+EMAIL_BACKEND = env('EMAIL_BACKEND')
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+
+#Celery
+CELERY_BROKER_URL = env('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
+CELERY_RESULT_EXTENDED = env('CELERY_RESULT_EXTENDED')
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = env('CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP')
+CELERY_BEAT_SCHEDULER = env('CELERY_BEAT_SCHEDULER')
