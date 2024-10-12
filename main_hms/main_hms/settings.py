@@ -14,6 +14,8 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
+    "daphne",
+    "channels",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -24,11 +26,23 @@ INSTALLED_APPS = [
     # my apps
     "posts.apps.PostsConfig",
     "users.apps.UsersConfig",
+    "chat.apps.ChatConfig",
 
     #third party apps
     "django_celery_beat",
     "django_celery_results",
 ]
+
+ASGI_APPLICATION = 'main_hms.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -58,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "main_hms.wsgi.application"
+# WSGI_APPLICATION = "main_hms.wsgi.application"
 
 DATABASES = {
     "default": {
