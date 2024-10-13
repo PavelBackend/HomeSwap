@@ -12,3 +12,11 @@ def user_detail(request, slug):
 def send_test_email_view(request):
     send_test_email.delay()
     return HttpResponse('Delaied email sent!')
+
+from rest_framework import generics
+from rest_framework.permissions import AllowAny
+from .serializers import UserRegistrationSerializer
+
+class UserRegistrationView(generics.CreateAPIView):
+    serializer_class = UserRegistrationSerializer
+    permission_classes = [AllowAny]

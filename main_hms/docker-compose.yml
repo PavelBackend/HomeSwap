@@ -1,20 +1,13 @@
-version: "3.7"
-
 services:
   web:
     build: .
     ports:
       - "8000:8000"
-    command: poetry run daphne -b 0.0.0.0 -p 8000 main_hms.asgi:application
-    volumes:
-      - .:/homeswapd
     env_file:
-      - .env
+      - .env-non-dev
     depends_on:
-      - postgres
+      - db
       - redis
-      - celery
-      - celery-beat
 
   redis:
     image: redis:6
@@ -24,13 +17,11 @@ services:
   celery:
     build: .
     command: poetry run celery -A main_hms worker -l info
-    volumes:
-      - .:/homeswapd
     env_file:
-      - .env
+      - .env-non-dev
     depends_on:
+      - db
       - redis
-      - postgres
 
   celery-beat:
     build: .
@@ -38,10 +29,10 @@ services:
     volumes:
       - .:/homeswapd
     env_file:
-      - .env
+      - .env-non-dev
     depends_on:
       - redis
-      - postgres
+      - db
 
   flower:
     build: .
@@ -51,18 +42,18 @@ services:
     volumes:
       - .:/homeswapd
     env_file:
-      - .env
+      - .env-non-dev
     depends_on:
       - redis
-      - postgres
+      - db
       - celery
 
-  postgres:
+  db:
     image: postgres
     ports:
-      - "5432:5432"
+      - "5433:5432"
     env_file:
-      - .env
+      - .env-non-dev
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

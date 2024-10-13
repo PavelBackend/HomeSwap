@@ -3,7 +3,7 @@ EXEC = docker exec -it
 LOGS = docker logs
 ENV = --env-file .env
 APP_FILE = docker-compose.yml
-APP_CONTAINER = web
+APP_CONTAINER = main_hms-web-1
 
 .PHONY: app
 app:

@@ -14,6 +14,8 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
+    "rest_framework",
+    'rest_framework_simplejwt.token_blacklist',
     "daphne",
     "channels",
     "django.contrib.admin",
@@ -27,7 +29,8 @@ INSTALLED_APPS = [
     "posts.apps.PostsConfig",
     "users.apps.UsersConfig",
     "chat.apps.ChatConfig",
-
+    "api.apps.ApiConfig",
+    
     #third party apps
     "django_celery_beat",
     "django_celery_results",
@@ -72,23 +75,33 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = "main_hms.wsgi.application"
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': env('ALGORITHM'),
+    'SIGNING_KEY': env('SIGNING_KEY'),
+}
+
+# RUN_ENV = env('RUN_ENV', default='local')
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'home_swap_db',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
     }
 }
 

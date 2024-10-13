@@ -1,23 +1,32 @@
+# Используем базовый образ
 FROM python:3.9-slim
 
-RUN apt update -y && \
-    apt install -y python3-dev gcc libffi-dev musl-dev curl && \
-    apt clean && rm -rf /var/lib/apt/lists/*
-
-RUN curl -sSL https://install.python-poetry.org | python3 -
-
-ENV PATH="/root/.local/bin:$PATH"
-
-RUN mkdir /homeswapd
-
+# Устанавливаем рабочую директорию
 WORKDIR /homeswapd
 
-COPY pyproject.toml poetry.lock /homeswapd/
+# Устанавливаем системные зависимости
+RUN apt-get update && apt-get install -y postgresql-client
 
-RUN poetry install --no-root --no-dev
+# Копируем зависимости
+COPY pyproject.toml poetry.lock ./
 
-COPY . /homeswapd/
+# Устанавливаем Poetry
+RUN pip install poetry
 
-EXPOSE 8000
+# Устанавливаем зависимости Python
+RUN poetry config virtualenvs.create false && poetry install --no-dev
 
-CMD ["sh", "-c", "poetry run daphne -b 0.0.0.0 -p 8000 main_hms.asgi:application"]
+# Копируем код приложения
+COPY . .
+
+# Копируем скрипт entrypoint
+COPY entrypoint.sh /entrypoint.sh
+
+# Делаем скрипт исполняемым
+RUN chmod +x /entrypoint.sh
+
+# Устанавливаем переменные окружения
+ENV PYTHONUNBUFFERED=1
+
+# Устанавливаем точку входа
+ENTRYPOINT ["/entrypoint.sh"]
