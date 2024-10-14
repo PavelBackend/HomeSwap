@@ -47,6 +47,6 @@ At this stage, the project is closed for external contributions. However, feel f
 ## 📫 Contact
 
 - **Email**: pavelsamo555@gmail.com
-- **LinkedIn**: https://www.linkedin.com/in/pavel-samokhin-19056b30b/
+- **LinkedIn**: https://clck.ru/3Dt2Su
 
 Thank you for checking out **HomeSwap**! Stay tuned for future updates and improvements.
