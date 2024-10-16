@@ -1,0 +1,25 @@
+<!-- login.html -->
+{% extends "main_hms/base.html" %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<h1>Вход пользователя</h1>
+<form id="login-form" method="post" action="{% url 'user_login' %}">
+    {% csrf_token %}
+    {% if error %}
+        <div class="alert alert-danger">
+            <p>{{ error }}</p>
+        </div>
+    {% endif %}
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required value="{{ request.POST.email }}">
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Пароль</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Войти</button>
+</form>
+{% endblock %}

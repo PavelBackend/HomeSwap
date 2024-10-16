@@ -1,0 +1,12 @@
+{% extends "main_hms/base.html" %}
+
+{% block title %}Выход{% endblock %}
+
+{% block content %}
+<h1>Выход</h1>
+<p>Вы действительно хотите выйти?</p>
+<form method="post" action="{% url 'user_logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Выйти</button>
+</form>
+{% endblock %}

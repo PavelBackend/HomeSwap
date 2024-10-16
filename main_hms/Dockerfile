@@ -2,7 +2,7 @@
 FROM python:3.9-slim
 
 # Устанавливаем рабочую директорию
-WORKDIR /homeswapd
+WORKDIR /homeswap
 
 # Устанавливаем системные зависимости
 RUN apt-get update && apt-get install -y postgresql-client

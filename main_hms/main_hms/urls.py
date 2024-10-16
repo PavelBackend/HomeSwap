@@ -6,8 +6,13 @@ from .views import *
 
 
 urlpatterns = [
-    path("", index, name="index"),
-    path("about/", about, name="about"),
+    path("auth_test/", auth_test, name="auth_test"),
+    path("", index, name='index'),
+    path("about/", about, name='about'),
+    path("register/", UserRegistrationView.as_view(), name="user_registration"),
+    path('registration_success/', registration_success, name='regorauth_success'),
+    path("login/", LoginView.as_view(), name="user_login"),
+    path("logout/", UserLogoutView.as_view(), name="user_logout"),
     path("admin/", admin.site.urls),
     path("users/", include("users.urls", namespace="users")),
     path("posts/", include("posts.urls", namespace="posts")),

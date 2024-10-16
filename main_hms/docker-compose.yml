@@ -27,7 +27,7 @@ services:
     build: .
     command: poetry run celery -A main_hms beat -l info
     volumes:
-      - .:/homeswapd
+      - .:/homeswap
     env_file:
       - .env-non-dev
     depends_on:
@@ -40,7 +40,7 @@ services:
     ports:
       - "5555:5555"
     volumes:
-      - .:/homeswapd
+      - .:/homeswap
     env_file:
       - .env-non-dev
     depends_on:

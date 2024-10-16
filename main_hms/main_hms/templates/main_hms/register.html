@@ -1,0 +1,53 @@
+{% extends "main_hms/base.html" %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<h1>Регистрация пользователя</h1>
+<form id="registration-form" onsubmit="registerUser(event)">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="username" class="form-label">Имя пользователя</label>
+        <input type="text" class="form-control" id="username" name="username" required>
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Пароль</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+</form>
+
+<script>
+async function registerUser(event) {
+    event.preventDefault(); // Предотвращаем перезагрузку страницы
+
+    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    const response = await fetch('/api/register/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, email, password }),
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        // Сохраните токены в localStorage или sessionStorage
+        localStorage.setItem('access_token', data.access);
+        localStorage.setItem('refresh_token', data.refresh);
+        // Перенаправьте пользователя на защищённую страницу
+        window.location.href = '/registration_success/'; // или другая страница
+    } else {
+        const errorData = await response.json();
+        alert('Ошибка: ' + JSON.stringify(errorData));
+    }
+}
+</script>
+{% endblock %}

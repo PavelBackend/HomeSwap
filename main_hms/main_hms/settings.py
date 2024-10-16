@@ -63,7 +63,7 @@ ROOT_URLCONF = "main_hms.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, 'main_hms/templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -81,6 +81,11 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
+
+AUTHENTICATION_BACKENDS = [
+    'main_hms.backends.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 from datetime import timedelta
 
@@ -121,6 +126,27 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'main_hms': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
+}
+
+
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "Europe/Moscow"
@@ -136,6 +162,9 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGIN_URL="/login/"
+LOGIN_REDIRECT_URL="/"
 
 #SMTP
 EMAIL_BACKEND = env('EMAIL_BACKEND')
