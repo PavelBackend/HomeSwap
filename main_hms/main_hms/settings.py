@@ -1,8 +1,9 @@
 from pathlib import Path
-import environ
 import os
+import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+print(BASE_DIR)
 
 env = environ.Env()
 environ.Env.read_env(env_file=os.path.join(BASE_DIR, '.env'))

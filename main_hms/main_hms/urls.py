@@ -2,9 +2,12 @@ from django.contrib import admin
 from django.urls import path, include
 from main_hms import settings
 from django.conf.urls.static import static
+from .views import *
 
 
 urlpatterns = [
+    path("", index, name="index"),
+    path("about/", about, name="about"),
     path("admin/", admin.site.urls),
     path("users/", include("users.urls", namespace="users")),
     path("posts/", include("posts.urls", namespace="posts")),
