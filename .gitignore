@@ -3,6 +3,5 @@ __pycache__/
 .env
 .env-non-dev
 dump.rdb
-.env.docker
 main_hms/static/
 homeswap.jpg
