@@ -17,7 +17,6 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     "rest_framework",
     'rest_framework_simplejwt.token_blacklist',
-    "daphne",
     "channels",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -31,6 +30,8 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "chat.apps.ChatConfig",
     "api.apps.ApiConfig",
+    "main_hms",
+
     
     #third party apps
     "django_celery_beat",
@@ -160,6 +161,10 @@ STATIC_ROOT = BASE_DIR / "static"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+STATICFILES_DIRS = [
+    BASE_DIR / "main_hms" / "static",
+]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
