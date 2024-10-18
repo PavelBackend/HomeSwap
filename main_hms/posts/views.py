@@ -5,21 +5,42 @@ from .models import Posts
 from .forms import PostForm
 from django.utils.text import slugify
 from django.core.exceptions import ObjectDoesNotExist
-from .models import Posts
 
 User = get_user_model()
 
+# Функция для генерации уникального slug
+def generate_unique_slug(post):
+    # Преобразуем заголовок поста в slug
+    original_slug = slugify(post.title)
+    slug = original_slug
+    queryset = Posts.objects.filter(slug__startswith=original_slug).order_by('-slug')
+
+    # Если уже существуют посты с похожим slug, добавляем числовой суффикс
+    if queryset.exists():
+        last_slug = queryset.first().slug
+        try:
+            # Извлекаем последний суффикс из найденного slug
+            slug_num = int(last_slug.split('-')[-1])
+            slug = f"{original_slug}-{slug_num + 1}"
+        except (ValueError, IndexError):
+            # Если нет числового суффикса, просто добавляем "-1"
+            slug = f"{original_slug}-1"
+    
+    return slug
+
+
+# Представление для отображения деталей поста
 def post_detail(request, slug):
     post = get_object_or_404(Posts, slug=slug)
     return render(request, 'posts/post_detail.html', {'post': post})
 
-
+# Представление для отображения списка постов
 class PostsView(View):
     def get(self, request):
         posts = Posts.objects.filter(available=True)
         return render(request, 'posts/posts.html', {'posts': posts})
 
-
+# Представление для создания поста
 class PostCreate(View):
     def get(self, request):
         form = PostForm()
@@ -30,6 +51,7 @@ class PostCreate(View):
         if form.is_valid():
             post = form.save(commit=False)
             
+            # Преобразуем request.user в объект кастомной модели Users
             try:
                 post.user = User.objects.get(id=request.user.id)
             except ObjectDoesNotExist:
@@ -38,17 +60,10 @@ class PostCreate(View):
                     'error': 'Пользователь не найден.'
                 })
             
-            # Генерация уникального slug
-            original_slug = slugify(post.title)
-            queryset = Posts.objects.filter(slug__startswith=original_slug).count()
-            if queryset:
-                slug = f"{original_slug}-{queryset + 1}"
-            else:
-                slug = original_slug
-            post.slug = slug
+            # Генерация уникального slug через функцию generate_unique_slug
+            post.slug = generate_unique_slug(post)
 
             post.save()
-            return redirect('post_detail', slug=post.slug)
+            return redirect('posts:post_detail', slug=post.slug)
         else:
             return render(request, 'posts/post_create.html', {'form': form})
-        
