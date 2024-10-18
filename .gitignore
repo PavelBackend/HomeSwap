@@ -5,3 +5,4 @@ __pycache__/
 dump.rdb
 main_hms/static/
 homeswap.jpg
+.env.local

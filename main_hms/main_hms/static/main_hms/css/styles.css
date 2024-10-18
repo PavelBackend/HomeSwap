@@ -1,0 +1,201 @@
+/* Контейнер для страницы */
+.about-page-container {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Контейнер для изображения */
+.image-container {
+    position: relative;
+    width: 100%; /* Контейнер занимает всю ширину экрана */
+    height: 90vh; /* Высота контейнера – 90% высоты экрана */
+    overflow: hidden; /* Обрезка изображения при переполнении */
+}
+
+/* Само изображение */
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 50%; /* Центровка изображения по горизонтали */
+    transform: translateX(-50%); /* Коррекция смещения */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Обрезка изображения, чтобы оно заполняло контейнер по пропорциям */
+}
+
+/* Текст поверх изображения */
+.overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5); /* Прозрачный черный фон для текста */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.overlay-text h1, .overlay-text p {
+    margin: 0;
+}
+
+/* Оранжевый фон для навигационной панели */
+.bg-orange {
+    background-color: #ff7f50; /* Цвет можно подкорректировать на ваш вкус */
+}
+
+/* Стили для ссылок в навигации */
+.navbar-nav .nav-link {
+    font-size: 18px; /* Увеличиваем размер шрифта */
+    font-weight: bold; /* Жирный шрифт для ссылок */
+    color: white; /* Белый цвет для ссылок */
+}
+
+/* Ссылки при наведении */
+.navbar-nav .nav-link:hover {
+    color: #fff3e0; /* Светло-оранжевый цвет при наведении */
+}
+
+/* Убираем белую обводку вокруг кнопок навигации */
+.navbar-toggler {
+    border: none;
+}
+
+/* Выравнивание кнопок */
+.navbar-nav.me-auto {
+    margin-right: auto;
+}
+
+.navbar-nav.ms-auto {
+    margin-left: auto;
+}
+
+/* Оформление списка ul */
+ul {
+    list-style-type: none; /* Убираем стандартные точки */
+    padding: 0;
+}
+
+ul li {
+    padding: 15px;
+    font-size: 18px;
+    background-color: #f8f9fa; /* Светлый фон для элементов списка */
+    margin-bottom: 10px;
+    border-radius: 10px; /* Скругление углов */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Лёгкая тень для создания эффекта объёма */
+    color: #333; /* Цвет текста */
+}
+
+/* Увеличиваем отступы для заголовков */
+h2 {
+    margin-top: 30px;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+/* Добавляем номера перед каждым h2 */
+h2::before {
+    content: counter(section-counter) ". "; /* Автоматическая нумерация */
+    counter-increment: section-counter; /* Увеличение счётчика */
+    color: #ff4500; /* Красный цвет для нумерации */
+    font-size: 28px; /* Размер цифры */
+    font-weight: bold; /* Жирный шрифт для цифры */
+}
+
+/* Инициализация счётчика для нумерации заголовков */
+body {
+    counter-reset: section-counter; /* Начинаем счёт с 1 */
+}
+
+/* Убираем белую обводку вокруг ссылок при фокусе и активации */
+.navbar-nav .nav-link:focus,
+.navbar-nav .nav-link:active {
+    outline: none; /* Убираем стандартное выделение */
+    box-shadow: none; /* Убираем тень при фокусе */
+}
+
+/* Ссылки остаются оранжевыми и без обводки при активации */
+.navbar-nav .nav-link.active {
+    color: white; /* Белый текст для активных элементов */
+    background-color: transparent; /* Убираем фон у активного элемента */
+    border: none; /* Убираем возможную границу */
+}
+/* Убираем все стили для ссылок в навигации */
+/* Обнуляем все стили для ссылок в навигации */
+.navbar-nav .nav-link {
+    font-size: inherit !important; /* Используем стандартный размер шрифта */
+    font-weight: normal !important; /* Убираем жирный шрифт */
+    color: inherit !important; /* Цвет текста как по умолчанию */
+    background-color: transparent !important; /* Убираем любые фоны */
+    border: none !important; /* Убираем обводки */
+    text-decoration: none !important; /* Убираем подчеркивание */
+    padding: 0 !important; /* Убираем дополнительное внутреннее пространство */
+    margin: 0 !important; /* Убираем дополнительные отступы */
+}
+
+/* Убираем стили при наведении, фокусе и активации */
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus,
+.navbar-nav .nav-link:active {
+    color: inherit !important; /* Цвет по умолчанию */
+    background-color: transparent !important; /* Убираем фон */
+    outline: none !important; /* Убираем обводку при фокусе */
+    box-shadow: none !important; /* Убираем тени */
+}
+
+/* Оранжевый фон для навигационной панели */
+.bg-orange {
+    background-color: #ff7f50 !important; /* Основной цвет навбара */
+}
+
+/* Стили для кнопки-тогглера */
+.navbar-toggler {
+    background-color: #e66a33 !important; /* Немного более тёмный оттенок кнопки */
+    border: none !important;
+    outline: none !important; /* Убираем обводку */
+}
+
+/* Изменения для иконки-гамбургера */
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255,0.9)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
+/* Стили для кнопки при наведении */
+.navbar-toggler:hover {
+    background-color: #cc5930 !important; /* Ещё более тёмный оттенок при наведении */
+    transition: background-color 0.3s ease !important; /* Плавный переход цвета */
+}
+
+/* Выравнивание иконок на кнопке */
+.navbar-toggler-icon {
+    display: block !important;
+    width: 1.5em !important;
+    height: 1.5em !important;
+}
+
+/* Контейнер для главной страницы */
+.main-page-container {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Контейнер для изображения */
+.image-container {
+    position: relative;
+    width: 100%; /* Контейнер занимает всю ширину экрана */
+    height: 90vh; /* Высота контейнера – 90% высоты экрана */
+    overflow: hidden; /* Обрезка изображения при переполнении */
+}
+
+/* Само изображение */
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 50%; /* Центровка изображения по горизонтали */
+    transform: translateX(-50%); /* Коррекция смещения */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Обрезка изображения, чтобы оно заполняло контейнер по пропорциям */
+}

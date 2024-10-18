@@ -7,10 +7,11 @@ from .views import *
 
 urlpatterns = [
     path("auth_test/", auth_test, name="auth_test"),
-    path("", index, name='index'),
+    path("", index, name='home'),
     path("about/", about, name='about'),
     path("register/", UserRegistrationView.as_view(), name="user_registration"),
-    path('registration_success/', registration_success, name='regorauth_success'),
+    path('registration_success/', registration_success, name='reg_success'),
+    path('authorization_success/', auth_success, name='auth_success'),
     path("login/", LoginView.as_view(), name="user_login"),
     path("logout/", UserLogoutView.as_view(), name="user_logout"),
     path("admin/", admin.site.urls),

@@ -1,8 +1,14 @@
 {% extends "main_hms/base.html" %}
 
+{% load static %}
+
 {% block title %}Главная страница{% endblock %}
 
 {% block content %}
-<h1>Добро пожаловать на главную страницу!</h1>
-<p>Здесь будет информация о сайте.</p>
+<div class="main-page-container">
+    <h1 class="text-center mt-4">Путешествуй по всему миру дешевле, меняясь домами!</h1>
+    <div class="image-container">
+        <img src="{% static 'main_hms/images/house_main_page.jpg' %}" alt="house_main_page" class="background-image" />
+    </div>
+</div>
 {% endblock %}

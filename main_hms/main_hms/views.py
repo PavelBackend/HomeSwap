@@ -42,7 +42,7 @@ class UserRegistrationView(generics.GenericAPIView):
 
 
 def registration_success(request):
-    return render(request, 'main_hms/success.html', {'title': 'Регистрация прошла успешно'})
+    return render(request, 'main_hms/success_reg.html', {'title': 'Регистрация прошла успешно'})
 
 
 class LoginView(View):
@@ -60,16 +60,21 @@ class LoginView(View):
         if user is not None:
             login(request, user)
             logger.info("Пользователь вошел: %s", user.email)
-            return redirect('regorauth_success')
+            return redirect('auth_success')
         else:
             logger.warning("Неверные учетные данные для email: %s", email)
             error = 'Неправильный email или пароль.'
             return render(request, 'main_hms/login.html', {'error': error})
+        
+
+def auth_success(request):
+    return render(request, 'main_hms/success_auth.html', {'title': 'Авторизация прошла успешно'})
+
 
 class UserLogoutView(View):
     def get(self, request):
         logout(request)
-        return redirect('index')
+        return redirect('home')
 
         
 @login_required

@@ -8,9 +8,11 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'password')  # Включаем email в поля
+        fields = ('id', 'username', 'name', 'surname', 'email', 'password', 'avatar_url')
         extra_kwargs = {
-            'password': {'write_only': True}
+            'password': {'write_only': True},
+            'email': {'required': True},
+            'name': {'required': True},
         }
 
     def validate_username(self, value):
@@ -29,8 +31,8 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         """Создание нового пользователя с хэшированным паролем."""
         user = User(
             username=validated_data['username'],
-            email=validated_data['email']  # Убедитесь, что email поддерживается в вашей модели
+            email=validated_data['email']
         )
-        user.set_password(validated_data['password'])  # Хэшируем пароль
+        user.set_password(validated_data['password'])
         user.save()
         return user

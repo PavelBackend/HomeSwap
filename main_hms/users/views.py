@@ -9,8 +9,9 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from .serializers import UserRegistrationSerializer
 from rest_framework import generics
-from rest_framework.permissions import AllowAny
-from .serializers import UserRegistrationSerializer
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 def user_detail(request, slug):
