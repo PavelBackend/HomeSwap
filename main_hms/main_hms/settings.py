@@ -3,10 +3,16 @@ import os
 import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-print(BASE_DIR)
+# print(BASE_DIR)
 
 env = environ.Env()
-environ.Env.read_env(env_file=os.path.join(BASE_DIR, '.env'))
+# environ.Env.read_env(env_file=os.path.join(BASE_DIR, '.env'))
+
+env_file = os.path.join(BASE_DIR, '.env')
+if os.path.exists(os.path.join(BASE_DIR, '.env.local')):
+    env_file = os.path.join(BASE_DIR, '.env.local')
+
+environ.Env.read_env(env_file=env_file)
 
 SECRET_KEY = env('SECRET_KEY')
 
@@ -15,28 +21,29 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
-    "rest_framework",
-    'rest_framework_simplejwt.token_blacklist',
-    "channels",
-    "django.contrib.admin",
+    # Ваше приложение users должно быть выше
+    "users.apps.UsersConfig",
     "django.contrib.auth",
+    "django.contrib.admin",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    # my apps
+    # Другие ваши приложения
     "posts.apps.PostsConfig",
-    "users.apps.UsersConfig",
     "chat.apps.ChatConfig",
     "api.apps.ApiConfig",
     "main_hms",
 
-    
-    #third party apps
+    # Сторонние приложения
+    "rest_framework",
+    "rest_framework_simplejwt.token_blacklist",
+    "channels",
     "django_celery_beat",
     "django_celery_results",
 ]
+
 
 ASGI_APPLICATION = 'main_hms.asgi.application'
 
@@ -99,8 +106,6 @@ SIMPLE_JWT = {
     'SIGNING_KEY': env('SIGNING_KEY'),
 }
 
-# RUN_ENV = env('RUN_ENV', default='local')
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -111,6 +116,8 @@ DATABASES = {
         'PORT': env('DB_PORT'),
     }
 }
+
+AUTH_USER_MODEL = 'users.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

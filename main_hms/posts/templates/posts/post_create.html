@@ -1,0 +1,20 @@
+{% extends "main_hms/base.html" %}
+
+{% block title %}Создать новый пост{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Создать новый пост</h2>
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- Здесь будут отображаться поля формы -->
+        {{ form.as_p }}
+        
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary">Создать пост</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

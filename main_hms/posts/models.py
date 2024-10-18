@@ -11,7 +11,7 @@ class Posts(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     available = models.BooleanField("Available", default=True)
 
-    user = models.ForeignKey('users.Users', on_delete=models.CASCADE, related_name='posts')
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='posts')
 
     def __str__(self):
         return self.title
