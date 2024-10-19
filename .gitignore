@@ -6,3 +6,4 @@ dump.rdb
 main_hms/static/
 homeswap.jpg
 .env.local
+logs/

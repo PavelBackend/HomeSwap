@@ -21,7 +21,6 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
-    # Ваше приложение users должно быть выше
     "users.apps.UsersConfig",
     "django.contrib.auth",
     "django.contrib.admin",
@@ -42,8 +41,15 @@ INSTALLED_APPS = [
     "channels",
     "django_celery_beat",
     "django_celery_results",
+    "django_elasticsearch_dsl"
 ]
 
+ELASTICSEARCH_DSL={
+    'default': {
+        'hosts': 'http://elasticsearch:9200',
+        # 'http_auth': ('username', 'password')
+    }
+}
 
 ASGI_APPLICATION = 'main_hms.asgi.application'
 
@@ -138,21 +144,46 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/homeswap/main_hms/logs/main.log',
+        },
         'console': {
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
+            'handlers': ['file', 'console'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+        'django.db.backends': {
+            'handlers': ['file', 'console'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+        '__main__': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': False,
         },
         'main_hms': {
-            'handlers': ['console'],
-            'level': 'INFO',
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        '': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
         },
     },
 }
+
+
 
 
 LANGUAGE_CODE = "en-us"
@@ -170,7 +201,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 STATICFILES_DIRS = [
-    BASE_DIR / "main_hms" / "static",
+    # BASE_DIR / "main_hms" / "static",
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
