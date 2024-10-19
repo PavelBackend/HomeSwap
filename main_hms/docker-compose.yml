@@ -12,6 +12,7 @@ services:
       - elasticsearch
     volumes:
       - static_volume:/homeswap/static
+      - ./main_hms/logs:/homeswap/main_hms/logs
     networks:
       - main_hms_network
 
@@ -93,6 +94,21 @@ services:
       - xpack.security.enabled=false
     networks:
       - main_hms_network
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.13.0
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./main_hms/logs:/homeswap/main_hms/logs
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5044:5044"
+    environment:
+      - LS_JAVA_OPTS=-Xmx256m -Xms256m
+    networks:
+      - main_hms_network
+
     
   # update-hosts:
   #   image: busybox:latest
