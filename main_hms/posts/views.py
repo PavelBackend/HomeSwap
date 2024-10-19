@@ -1,10 +1,12 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.views import View
 from django.contrib.auth import get_user_model
 from .models import Posts
 from .forms import PostForm
 from django.utils.text import slugify
 from django.core.exceptions import ObjectDoesNotExist
+from .documents import *
 
 User = get_user_model()
 
@@ -67,3 +69,22 @@ class PostCreate(View):
             return redirect('posts:post_detail', slug=post.slug)
         else:
             return render(request, 'posts/post_create.html', {'form': form})
+
+def search_posts(request):
+    q = request.GET.get('q')
+    context = {}
+    if q:
+        posts = PostDocument.search().query(
+            "bool", 
+            should=[
+                {"match": {"title": q}},
+                {"match": {"content": q}},
+            ],
+            minimum_should_match=1
+        )
+        context['posts'] = posts
+    else:
+        # Просто отобразить страницу поиска без результатов
+        context['posts'] = []
+
+    return render(request, 'posts/search_posts.html', context)

@@ -21,7 +21,6 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
-    # Ваше приложение users должно быть выше
     "users.apps.UsersConfig",
     "django.contrib.auth",
     "django.contrib.admin",
@@ -42,8 +41,15 @@ INSTALLED_APPS = [
     "channels",
     "django_celery_beat",
     "django_celery_results",
+    "django_elasticsearch_dsl"
 ]
 
+ELASTICSEARCH_DSL={
+    'default': {
+        'hosts': 'http://elasticsearch:9200',
+        # 'http_auth': ('username', 'password')
+    }
+}
 
 ASGI_APPLICATION = 'main_hms.asgi.application'
 
@@ -170,7 +176,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 STATICFILES_DIRS = [
-    BASE_DIR / "main_hms" / "static",
+    # BASE_DIR / "main_hms" / "static",
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
