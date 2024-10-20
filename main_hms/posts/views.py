@@ -40,11 +40,51 @@ def post_detail(request, slug):
     post = get_object_or_404(Posts, slug=slug)
     return render(request, 'posts/post_detail.html', {'post': post})
 
+
 class PostsView(View):
+
     def get(self, request):
-        logger.info('Получение списка постов')
-        posts = Posts.objects.filter(available=True)
-        return render(request, 'posts/posts.html', {'posts': posts})
+        logger.info('Получение списка или поиск постов')
+        query = request.GET.get('q', '').strip()
+        context = {}
+
+        try:
+            if query:
+                logger.info(f'Выполнение поиска по запросу: "{query}"')
+                search = PostDocument.search().query(
+                    "bool",
+                    must=[
+                        {
+                            "multi_match": {
+                                "query": query,
+                                "fields": ["title", "content"]
+                            }
+                        }
+                    ],
+                    filter=[
+                        {
+                            "term": {
+                                "available": True
+                            }
+                        }
+                    ]
+                )
+                response = search.execute()
+                posts = response.hits
+                context['query'] = query
+            else:
+                logger.info('Отображение всех доступных постов')
+                posts = Posts.objects.filter(available=True)
+                context['query'] = ''
+
+            context['posts'] = posts
+        except Exception as e:
+            logger.error(f'Ошибка при получении постов: {e}')
+            context['posts'] = []
+            context['error'] = 'Произошла ошибка при загрузке постов.'
+
+        return render(request, 'posts/posts.html', context)
+
 
 class PostCreate(View):
     def get(self, request):
@@ -70,21 +110,3 @@ class PostCreate(View):
             return redirect('posts:post_detail', slug=post.slug)
         else:
             return render(request, 'posts/post_create.html', {'form': form})
-
-def search_posts(request):
-    q = request.GET.get('q')
-    context = {}
-    if q:
-        posts = PostDocument.search().query(
-            "bool", 
-            should=[
-                {"match": {"title": q}},
-                {"match": {"content": q}},
-            ],
-            minimum_should_match=1
-        )
-        context['posts'] = posts
-    else:
-        context['posts'] = []
-
-    return render(request, 'posts/search_posts.html', context)

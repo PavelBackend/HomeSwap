@@ -42,24 +42,59 @@
 
 /* Оранжевый фон для навигационной панели */
 .bg-orange {
-    background-color: #ff7f50; /* Цвет можно подкорректировать на ваш вкус */
+    background-color: #ff6b3b; /* Чуть более тёмный и насыщенный оранжевый */
+}
+
+/* Стили для ссылок в навигации */
+.navbar-nav .nav-item {
+    padding: 0; /* Убираем padding у элементов списка */
+    margin: 0 10px; /* Уменьшаем отступы между элементами */
 }
 
 /* Стили для ссылок в навигации */
 .navbar-nav .nav-link {
-    font-size: 18px; /* Увеличиваем размер шрифта */
-    font-weight: bold; /* Жирный шрифт для ссылок */
-    color: white; /* Белый цвет для ссылок */
+    font-size: 16px; /* Небольшой размер шрифта */
+    font-weight: 500; /* Средний вес шрифта */
+    color: #ffffff; /* Белый цвет текста на кнопках */
+    background-color: transparent; /* Убираем фон */
+    padding: 8px 12px; /* Уменьшаем внутренние отступы */
+    border-radius: 5px; /* Лёгкое скругление углов */
+    transition: all 0.3s ease; /* Плавный переход для всех свойств */
 }
 
 /* Ссылки при наведении */
 .navbar-nav .nav-link:hover {
-    color: #fff3e0; /* Светло-оранжевый цвет при наведении */
+    color: #ffebcc; /* Светло-жёлтый цвет текста при наведении */
+    background-color: rgba(255, 255, 255, 0.2); /* Лёгкий полупрозрачный белый фон при наведении */
+    transform: scale(1.05); /* Небольшое увеличение при наведении */
+}
+
+/* Активная ссылка */
+.navbar-nav .nav-link.active {
+    color: #ffffff; /* Белый текст для активных ссылок */
+    background-color: rgba(255, 255, 255, 0.3); /* Полупрозрачный белый фон для активных ссылок */
 }
 
 /* Убираем белую обводку вокруг кнопок навигации */
 .navbar-toggler {
     border: none;
+    background-color: #e66a33; /* Тёмный оттенок для кнопки-тогглера */
+}
+
+/* Изменения для иконки-гамбургера */
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255,1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
+/* Стили для кнопки-тогглера */
+.navbar-toggler:hover {
+    background-color: #cc5930; /* Ещё более тёмный оттенок при наведении */
+}
+
+/* Эффект при нажатии на кнопку-тогглер */
+.navbar-toggler:active {
+    transform: scale(1.1); /* Увеличение кнопки при нажатии */
+    transition: all 0.3s ease;
 }
 
 /* Выравнивание кнопок */
@@ -113,65 +148,6 @@ body {
 .navbar-nav .nav-link:active {
     outline: none; /* Убираем стандартное выделение */
     box-shadow: none; /* Убираем тень при фокусе */
-}
-
-/* Ссылки остаются оранжевыми и без обводки при активации */
-.navbar-nav .nav-link.active {
-    color: white; /* Белый текст для активных элементов */
-    background-color: transparent; /* Убираем фон у активного элемента */
-    border: none; /* Убираем возможную границу */
-}
-/* Убираем все стили для ссылок в навигации */
-/* Обнуляем все стили для ссылок в навигации */
-.navbar-nav .nav-link {
-    font-size: inherit !important; /* Используем стандартный размер шрифта */
-    font-weight: normal !important; /* Убираем жирный шрифт */
-    color: inherit !important; /* Цвет текста как по умолчанию */
-    background-color: transparent !important; /* Убираем любые фоны */
-    border: none !important; /* Убираем обводки */
-    text-decoration: none !important; /* Убираем подчеркивание */
-    padding: 0 !important; /* Убираем дополнительное внутреннее пространство */
-    margin: 0 !important; /* Убираем дополнительные отступы */
-}
-
-/* Убираем стили при наведении, фокусе и активации */
-.navbar-nav .nav-link:hover,
-.navbar-nav .nav-link:focus,
-.navbar-nav .nav-link:active {
-    color: inherit !important; /* Цвет по умолчанию */
-    background-color: transparent !important; /* Убираем фон */
-    outline: none !important; /* Убираем обводку при фокусе */
-    box-shadow: none !important; /* Убираем тени */
-}
-
-/* Оранжевый фон для навигационной панели */
-.bg-orange {
-    background-color: #ff7f50 !important; /* Основной цвет навбара */
-}
-
-/* Стили для кнопки-тогглера */
-.navbar-toggler {
-    background-color: #e66a33 !important; /* Немного более тёмный оттенок кнопки */
-    border: none !important;
-    outline: none !important; /* Убираем обводку */
-}
-
-/* Изменения для иконки-гамбургера */
-.navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255,0.9)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
-}
-
-/* Стили для кнопки при наведении */
-.navbar-toggler:hover {
-    background-color: #cc5930 !important; /* Ещё более тёмный оттенок при наведении */
-    transition: background-color 0.3s ease !important; /* Плавный переход цвета */
-}
-
-/* Выравнивание иконок на кнопке */
-.navbar-toggler-icon {
-    display: block !important;
-    width: 1.5em !important;
-    height: 1.5em !important;
 }
 
 /* Контейнер для главной страницы */
