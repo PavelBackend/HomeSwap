@@ -110,3 +110,27 @@ class PostCreate(View):
             return redirect('posts:post_detail', slug=post.slug)
         else:
             return render(request, 'posts/post_create.html', {'form': form})
+
+
+
+class PostUpdate(View):
+    def get(self, request, slug):
+        post = get_object_or_404(Posts, slug=slug)
+        form = PostForm(instance=post)
+        return render(request, 'posts/post_update.html', {'form': form, 'post': post})
+
+    def post(self, request, slug):
+        post = get_object_or_404(Posts, slug=slug)
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('posts:post_detail', slug=post.slug)
+        else:
+            return render(request, 'posts/post_update.html', {'form': form, 'post': post})
+
+class PostDelete(View):
+    def post(self, request, slug):
+        post = get_object_or_404(Posts, slug=slug)
+        post.delete()
+        logger.info('Удаление поста: %s', post.title)
+        return redirect('posts:posts')
