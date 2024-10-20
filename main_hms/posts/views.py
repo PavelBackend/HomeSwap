@@ -42,7 +42,6 @@ def post_detail(request, slug):
 
 
 class PostsView(View):
-
     def get(self, request):
         logger.info('Получение списка или поиск постов')
         query = request.GET.get('q', '').strip()

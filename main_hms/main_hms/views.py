@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
@@ -11,16 +11,28 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth import logout
 
 
+
 User = get_user_model()
 
 logger = logging.getLogger(__name__)
 
+
 def index(request):
-    return render (request, 'main_hms/index.html', {'title': 'Main page'})
+    if request.user.is_authenticated:
+        user = request.user
+    else:
+        user = None
+    context = {'user': user, 'title': 'Main page'}
+    return render (request, 'main_hms/index.html', context)
 
 
 def about(request):
-    return render (request, 'main_hms/about.html', {'title': 'How it works'})
+    if request.user.is_authenticated:
+        user = request.user
+    else:
+        user = None
+    context = {'user': user, 'title': 'How it works'}
+    return render (request, 'main_hms/about.html', context)
 
 
 class UserRegistrationView(generics.GenericAPIView):

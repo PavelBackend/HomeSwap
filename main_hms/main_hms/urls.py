@@ -3,6 +3,7 @@ from django.urls import path, include
 from main_hms import settings
 from django.conf.urls.static import static
 from .views import *
+from users.views import get_user_slug
 
 
 urlpatterns = [
