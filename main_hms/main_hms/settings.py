@@ -147,7 +147,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/homeswap/main_hms/logs/main.log',
+            'filename': 'main_hms/logs/main.log',
         },
         'console': {
             'level': 'DEBUG',
@@ -198,7 +198,7 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static"
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = "/homeswap/media/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 

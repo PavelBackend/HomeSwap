@@ -12,12 +12,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def test_logging(request):
-    logger.debug("Это тестовое сообщение уровня DEBUG")
-    logger.info("Это тестовое сообщение уровня INFO")
-    logger.error("Это тестовое сообщение уровня ERROR")
-    return HttpResponse("Проверка логирования")
-
 User = get_user_model()
 
 def generate_unique_slug(post):
@@ -36,9 +30,11 @@ def generate_unique_slug(post):
     return slug
 
 
-def post_detail(request, slug):
-    post = get_object_or_404(Posts, slug=slug)
-    return render(request, 'posts/post_detail.html', {'post': post})
+class PostDetail(View):
+    def get(self, request, slug):
+        post = get_object_or_404(Posts, slug=slug)
+        context = {'post': post}
+        return render(request, 'posts/post_detail.html', context)
 
 
 class PostsView(View):

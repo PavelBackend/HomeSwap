@@ -91,6 +91,10 @@ def auth_success(request):
     return render(request, 'main_hms/success_auth.html', {'title': 'Авторизация прошла успешно'})
 
 
+def access_denied(request):
+    return render(request, 'main_hms/access_denied.html')
+
+
 class UserLogoutView(View):
     def get(self, request):
         logout(request)

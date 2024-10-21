@@ -27,7 +27,7 @@ def generate_unique_slug(post):
 class Posts(models.Model):
     title = models.CharField("Title" ,max_length=100, null=False, blank=False)
     slug = models.SlugField("Slug", max_length=100, blank=True, unique=True)
-    image_url = models.TextField("Image URL", null=True, blank=True)
+    image = models.ImageField("Image", upload_to='posts/', null=True, blank=True)
     content = models.TextField("Content", max_length=1500, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

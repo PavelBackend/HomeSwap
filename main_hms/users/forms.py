@@ -8,7 +8,7 @@ User = get_user_model()
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'name', 'surname', 'avatar_url']
+        fields = ['username', 'email', 'name', 'surname', 'avatar']
 
     username = forms.CharField(
         max_length=100, 
@@ -30,8 +30,7 @@ class UserForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите вашу фамилию'})
     )
 
-    avatar_url = forms.CharField(
+    avatar = forms.ImageField(
         required=False,
-        max_length=100, 
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите avatar_url'})
+        widget=forms.FileInput(attrs={'class': 'form-control'})
     )

@@ -4,17 +4,16 @@ from .models import Posts
 class PostForm(forms.ModelForm):
     class Meta:
         model = Posts
-        fields = ['title', 'image_url', 'content', 'available']
+        fields = ['title', 'image', 'content', 'available']
     
-    # Настраиваем виджет для каждого поля, если нужно
     title = forms.CharField(
         max_length=100, 
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите заголовок'})
     )
     
-    image_url = forms.URLField(
-        required=False,  # Поле не обязательное
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите URL изображения'})
+    image = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(attrs={'class': 'form-control'})
     )
     
     content = forms.CharField(
@@ -23,6 +22,6 @@ class PostForm(forms.ModelForm):
     )
     
     available = forms.BooleanField(
-        required=False,  # Поле не обязательное
+        required=False,
         widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
     )

@@ -26,10 +26,10 @@
         <label for="password" class="form-label">Пароль</label>
         <input type="password" class="form-control" id="password" name="password" required>
     </div>
-    <div class="mb-3">
+    <!-- <div class="mb-3">
         <label for="avatar_url" class="form-label">Аватар</label>
         <input type="avatar_url" class="form-control" id="avatar_url" name="avatar_url">
-    </div>
+    </div> -->
     <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
 </form>
 
@@ -42,14 +42,13 @@ async function registerUser(event) {
     const surname = document.getElementById('surname').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-    const avatar_url = document.getElementById('avatar_url').value;
 
     const response = await fetch('/api/register/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, name, surname, email, password, avatar_url }),
+        body: JSON.stringify({ username, name, surname, email, password }),
     });
 
     if (response.ok) {

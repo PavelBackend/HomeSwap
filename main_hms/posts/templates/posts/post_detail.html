@@ -1,6 +1,32 @@
 {% extends 'main_hms/base.html' %}
 {% block content %}
-<h1 class="text-center">{{ post.title }}</h1>
-<p class="text-center">{{ post.content }}</p>
-<p class="text-center">{{ post.created_at }}</p>
+<div class="post-container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+    <h1 class="text-center">{{ post.title }}</h1>
+    <p class="text-center">{{ post.created_at|date:"d M Y" }}</p>
+
+    <!-- Отображение изображения поста -->
+    {% if post.image %}
+    <div class="text-center mb-4">
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" style="max-width: 100%; height: auto; width: 600px; height: 400px; object-fit: cover; border-radius: 8px;">
+    </div>
+    {% endif %}
+
+    <p class="post-content" style="text-align: justify; font-size: 1.1rem; line-height: 1.6;">
+        {{ post.content }}
+    </p>
+
+    <!-- Кнопки должны быть видно только автору -->
+    {% if request.user.is_authenticated and request.user == post.user %}
+    <div class="button-group" style="display: flex; justify-content: space-around; margin-top: 20px;">
+        <a href="{% url 'posts:update_post' post.slug %}" class="btn btn-primary" style="width: 45%; padding: 10px 0; text-align: center;">Изменить пост</a>
+        <a href="{% url 'posts:delete_post' post.slug %}" class="btn btn-danger" style="width: 45%; padding: 10px 0; text-align: center;">Удалить пост</a>
+    </div>
+    {% else %}
+    <div>
+        <p class="post-content" style="text-align: justify; font-size: 1.1rem; line-height: 1.6;">
+            Контакты: {{ post.user.email }}
+        </p>
+    </div>
+    {% endif %}
+</div>
 {% endblock %}
