@@ -1,14 +1,47 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>User_detail</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="" />
-  </head>
-  <body>
-    {{ slug }}
-  </body>
-</html>
+{% extends 'main_hms/base.html' %}
+
+{% block title %}Профиль {{ user.username }}{% endblock %}
+
+{% block content %}
+
+<!-- Отображение сообщений -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% if user.avatar %}
+    <img src="{{ user.avatar.url }}" alt="{{ user.username }}" class="img-thumbnail" style="max-width: 150px;">
+{% else %}
+    <p>Аватар не загружен.</p>
+{% endif %}
+
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Обновить профиль</button>
+</form>
+
+<h2>Ваши объявления</h2>
+{% if user_posts %}
+<!-- Перебор найденных постов -->
+{% for post in user_posts %}
+<div class="card mb-3">
+<div class="card-body">
+    <h5 class="card-title">{{ post.title }}</h5>
+    <p class="card-text">{{ post.content|truncatechars:200 }}</p>
+    {% if post.available %}
+        <p>Опубликовано</p>
+    {% else %}
+        <p>Не опубликовано</p>
+    {% endif %}
+    <a href="{% if post.slug %}{% url 'posts:post_detail' post.slug %}{% else %}#{% endif %}" class="btn btn-primary">Подробнее</a>
+    <p>{{ post.created_at }}</p>
+</div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}

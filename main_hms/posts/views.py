@@ -12,12 +12,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def test_logging(request):
-    logger.debug("Это тестовое сообщение уровня DEBUG")
-    logger.info("Это тестовое сообщение уровня INFO")
-    logger.error("Это тестовое сообщение уровня ERROR")
-    return HttpResponse("Проверка логирования")
-
 User = get_user_model()
 
 def generate_unique_slug(post):
@@ -36,15 +30,56 @@ def generate_unique_slug(post):
     return slug
 
 
-def post_detail(request, slug):
-    post = get_object_or_404(Posts, slug=slug)
-    return render(request, 'posts/post_detail.html', {'post': post})
+class PostDetail(View):
+    def get(self, request, slug):
+        post = get_object_or_404(Posts, slug=slug)
+        context = {'post': post}
+        return render(request, 'posts/post_detail.html', context)
+
 
 class PostsView(View):
     def get(self, request):
-        logger.info('Получение списка постов')
-        posts = Posts.objects.filter(available=True)
-        return render(request, 'posts/posts.html', {'posts': posts})
+        logger.info('Получение списка или поиск постов')
+        query = request.GET.get('q', '').strip()
+        context = {}
+
+        try:
+            if query:
+                logger.info(f'Выполнение поиска по запросу: "{query}"')
+                search = PostDocument.search().query(
+                    "bool",
+                    must=[
+                        {
+                            "multi_match": {
+                                "query": query,
+                                "fields": ["title", "content"]
+                            }
+                        }
+                    ],
+                    filter=[
+                        {
+                            "term": {
+                                "available": True
+                            }
+                        }
+                    ]
+                )
+                response = search.execute()
+                posts = response.hits
+                context['query'] = query
+            else:
+                logger.info('Отображение всех доступных постов')
+                posts = Posts.objects.filter(available=True)
+                context['query'] = ''
+
+            context['posts'] = posts
+        except Exception as e:
+            logger.error(f'Ошибка при получении постов: {e}')
+            context['posts'] = []
+            context['error'] = 'Произошла ошибка при загрузке постов.'
+
+        return render(request, 'posts/posts.html', context)
+
 
 class PostCreate(View):
     def get(self, request):
@@ -71,20 +106,26 @@ class PostCreate(View):
         else:
             return render(request, 'posts/post_create.html', {'form': form})
 
-def search_posts(request):
-    q = request.GET.get('q')
-    context = {}
-    if q:
-        posts = PostDocument.search().query(
-            "bool", 
-            should=[
-                {"match": {"title": q}},
-                {"match": {"content": q}},
-            ],
-            minimum_should_match=1
-        )
-        context['posts'] = posts
-    else:
-        context['posts'] = []
 
-    return render(request, 'posts/search_posts.html', context)
+
+class PostUpdate(View):
+    def get(self, request, slug):
+        post = get_object_or_404(Posts, slug=slug)
+        form = PostForm(instance=post)
+        return render(request, 'posts/post_update.html', {'form': form, 'post': post})
+
+    def post(self, request, slug):
+        post = get_object_or_404(Posts, slug=slug)
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('posts:post_detail', slug=post.slug)
+        else:
+            return render(request, 'posts/post_update.html', {'form': form, 'post': post})
+
+class PostDelete(View):
+    def post(self, request, slug):
+        post = get_object_or_404(Posts, slug=slug)
+        post.delete()
+        logger.info('Удаление поста: %s', post.title)
+        return redirect('posts:posts')

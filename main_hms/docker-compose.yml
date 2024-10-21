@@ -13,6 +13,7 @@ services:
     volumes:
       - static_volume:/homeswap/static
       - ./main_hms/logs:/homeswap/main_hms/logs
+      - ./media:/homeswap/media
     networks:
       - main_hms_network
 
@@ -77,6 +78,7 @@ services:
     volumes:
       - static_volume:/homeswap/static
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./media:/homeswap/media
     depends_on:
       - web
     networks:
@@ -132,6 +134,7 @@ volumes:
   postgres_data:
   static_volume:
   esdata01:
+  media_volume:
 
 networks:
   main_hms_network:

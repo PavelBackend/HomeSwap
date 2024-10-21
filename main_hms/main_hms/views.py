@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
@@ -9,18 +9,38 @@ from .serializers import RegistrationSerializer
 import logging
 from django.contrib.auth import login, authenticate
 from django.contrib.auth import logout
+from django.contrib.auth.views import PasswordResetConfirmView
+from django.urls import reverse_lazy
+from .forms import SetPasswordForm
 
 
 User = get_user_model()
 
 logger = logging.getLogger(__name__)
 
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'main_hms/password_reset_confirm.html'
+    success_url = reverse_lazy('password-reset-complete')
+    form_class = SetPasswordForm
+
+
 def index(request):
-    return render (request, 'main_hms/index.html', {'title': 'Main page'})
+    if request.user.is_authenticated:
+        user = request.user
+    else:
+        user = None
+    context = {'user': user, 'title': 'Main page'}
+    return render (request, 'main_hms/index.html', context)
 
 
 def about(request):
-    return render (request, 'main_hms/about.html', {'title': 'How it works'})
+    if request.user.is_authenticated:
+        user = request.user
+    else:
+        user = None
+    context = {'user': user, 'title': 'How it works'}
+    return render (request, 'main_hms/about.html', context)
 
 
 class UserRegistrationView(generics.GenericAPIView):
@@ -69,6 +89,10 @@ class LoginView(View):
 
 def auth_success(request):
     return render(request, 'main_hms/success_auth.html', {'title': 'Авторизация прошла успешно'})
+
+
+def access_denied(request):
+    return render(request, 'main_hms/access_denied.html')
 
 
 class UserLogoutView(View):

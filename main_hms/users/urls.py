@@ -4,6 +4,6 @@ from users import views
 app_name = 'users'
 
 urlpatterns = [
-    path('send_test_email_view', views.send_test_email_view, name='send_test_email_view'),
-    path('<slug:slug>/', views.user_detail, name='user_detail'),
+    path('get-user-slug/', views.get_user_slug, name='get_user_slug'),
+    path('profile/<slug:slug>/', views.UserDetail.as_view(), name='user_detail'),
 ]

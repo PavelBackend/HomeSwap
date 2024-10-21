@@ -7,7 +7,7 @@ class User(AbstractUser):
     slug = models.SlugField(max_length=50, unique=True, blank=True)
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50, blank=True, null=True)
-    avatar_url = models.TextField(blank=True, null=True)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
