@@ -161,3 +161,91 @@ h2 {
 body {
     counter-reset: section-counter;
 }
+
+/* Обновленный фон страницы */
+body {
+    counter-reset: section-counter;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* Градиентный фон */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Контейнер для главной страницы */
+.main-page-container {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8); /* Прозрачный белый фон для контента */
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Контейнер для изображения на главной странице */
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 90vh; /* Высота контейнера – 90% высоты экрана */
+    overflow: hidden; /* Обрезка изображения при переполнении */
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Тень для изображения */
+    margin-top: 20px;
+}
+
+/* Само изображение на главной странице */
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 50%; /* Центровка изображения по горизонтали */
+    transform: translateX(-50%); /* Коррекция смещения */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Обрезка изображения, чтобы оно заполняло контейнер по пропорциям */
+    transition: transform 0.5s ease; /* Плавный переход при наведении */
+}
+
+.background-image:hover {
+    transform: translateX(-50%) scale(1.05); /* Легкое увеличение при наведении */
+}
+
+/* Текст поверх изображения (если понадобится) */
+.overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5); /* Прозрачный черный фон для текста */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.overlay-text h1, .overlay-text p {
+    margin: 0;
+}
+
+/* Стили для заголовка на главной странице */
+.main-page-container h1 {
+    font-size: 2.5rem;
+    color: #333333;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Тень для текста */
+}
+
+/* Стили для контейнера изображения */
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Добавляем тень */
+    margin-top: 20px;
+}
+
+/* Дополнительные улучшения для адаптивности */
+@media (max-width: 768px) {
+    .main-page-container h1 {
+        font-size: 1.8rem;
+    }
+}
