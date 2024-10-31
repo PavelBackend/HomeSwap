@@ -3,18 +3,20 @@ import os
 import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-# print(BASE_DIR)
 
 env = environ.Env()
-# environ.Env.read_env(env_file=os.path.join(BASE_DIR, '.env'))
-
 env_file = os.path.join(BASE_DIR, '.env')
 if os.path.exists(os.path.join(BASE_DIR, '.env.local')):
     env_file = os.path.join(BASE_DIR, '.env.local')
-
 environ.Env.read_env(env_file=env_file)
 
 SECRET_KEY = env('SECRET_KEY')
+
+MONGO_INITDB_ROOT_USERNAME=env('MONGO_INITDB_ROOT_USERNAME')
+MONGO_INITDB_ROOT_PASSWORD=env('MONGO_INITDB_ROOT_PASSWORD')
+MONGO_HOST = env('MONGO_HOST', default='localhost')
+MONGO_PORT = int(env('MONGO_PORT', default=27017))
+MONGO_DB = env('MONGO_DB', default='chat_db')
 
 DEBUG = env('DEBUG')
 

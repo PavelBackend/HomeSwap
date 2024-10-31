@@ -1,10 +1,16 @@
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.views import View
+from mongo_db import sync_client
+from main_hms import settings
 
-
-@login_required
-def chat_room(request, room_name):
-    return render(request, 'chat/chat.html', {'room_name': room_name})
-
-def chat_index(request):
-    return render(request, 'chat/chat_index.html')
+class ChatView(View):
+    def get(self, request, room_name):
+        db = sync_client[settings.MONGO_DB]
+        messages_collection = db['messages']
+        
+        messages = messages_collection.find({'room': room_name}).sort('timestamp')
+        
+        message_list = [{'message': msg['message']} for msg in messages]
+        context = {'room_name': room_name, 'messages': message_list}
+        
+        return render(request, 'chat/chat.html', context)

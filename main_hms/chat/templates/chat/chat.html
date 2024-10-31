@@ -1,51 +1,75 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Chat</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="" />
-  </head>
-  <body>
-    <div
-      id="chat-log"
-      style="border: 1px solid black; height: 300px; overflow-y: scroll"
-    >
-      <!-- Здесь будут отображаться сообщения -->
-    </div>
+{% extends "main_hms/base.html" %}
 
-    <input id="chat-message-input" type="text" size="100" />
-    <button id="chat-message-submit">Send</button>
+{% block content %}
+<div
+  id="chat-log"
+  style="border: 1px solid black; height: 300px; overflow-y: scroll; padding: 10px;"
+>
+  <!-- Отображение сохранённых сообщений из MongoDB -->
+  {% if messages %}
+    {% for message in messages %}
+      <div>{{ message.message|safe }}</div>
+    {% endfor %}
+  {% endif %}
+</div>
 
-    <script>
-      const roomName = "{{ room_name }}";
-      const chatSocket = new WebSocket(
-        "ws://127.0.0.1:8000/ws/chat/" + roomName + "/"
+<div style="margin-top: 10px;">
+  <input id="chat-message-input" type="text" size="100" placeholder="Введите сообщение..." />
+  <button id="chat-message-submit">Send</button>
+</div>
+
+<script>
+  const roomName = '{{ room_name|escapejs }}';
+  const chatSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/chat/" + roomName + "/"
+  );
+
+  chatSocket.onopen = function (e) {
+    console.log("WebSocket соединение установлено.");
+  };
+
+  chatSocket.onmessage = function (e) {
+    const data = JSON.parse(e.data);
+    const chatLog = document.querySelector("#chat-log");
+    const newMessage = document.createElement("div");
+    newMessage.textContent = data.message;
+    chatLog.appendChild(newMessage);
+
+    chatLog.scrollTop = chatLog.scrollHeight;
+    console.log("Сообщение получено и добавлено в чат:", data.message);
+  };
+
+  chatSocket.onclose = function (e) {
+    console.error("Chat socket closed unexpectedly");
+    alert("Соединение закрыто. Возможно, возникла ошибка.");
+  };
+
+  const messageInputDom = document.querySelector("#chat-message-input");
+  const messageSubmitDom = document.querySelector("#chat-message-submit");
+
+
+  function sendMessage() {
+    const message = messageInputDom.value.trim();
+    if (message) {
+      chatSocket.send(
+        JSON.stringify({
+          message: message,
+        })
       );
+      console.log("Сообщение отправлено:", message);
+      messageInputDom.value = "";
+    }
+  }
 
-      chatSocket.onmessage = function (e) {
-        const data = JSON.parse(e.data);
-        const chatLog = document.querySelector("#chat-log");
-        const newMessage = document.createElement("div");
-        newMessage.textContent = data.message;
-        chatLog.appendChild(newMessage);
+  messageSubmitDom.onclick = function (e) {
+    sendMessage();
+  };
 
-        // Автопрокрутка вниз после нового сообщения
-        chatLog.scrollTop = chatLog.scrollHeight;
-      };
-
-      document.querySelector("#chat-message-submit").onclick = function (e) {
-        const messageInputDom = document.querySelector("#chat-message-input");
-        const message = messageInputDom.value;
-        chatSocket.send(
-          JSON.stringify({
-            message: message,
-          })
-        );
-        messageInputDom.value = ""; // Очищаем поле после отправки
-      };
-    </script>
-  </body>
-</html>
+  messageInputDom.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      sendMessage();
+    }
+  });
+</script>
+{% endblock %}

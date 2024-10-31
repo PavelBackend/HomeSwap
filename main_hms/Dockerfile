@@ -2,13 +2,18 @@ FROM python:3.9-slim
 
 WORKDIR /homeswap
 
-RUN apt-get update && apt-get install -y postgresql-client
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip install poetry==1.5.1
 
 COPY pyproject.toml poetry.lock ./
 
-RUN pip install poetry
-
-RUN poetry config virtualenvs.create false && poetry install
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-interaction --no-ansi
 
 COPY . .
 

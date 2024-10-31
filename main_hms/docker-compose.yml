@@ -6,10 +6,15 @@ services:
       - "8000:8000"
     env_file:
       - .env
+    environment:
+      MONGO_HOST: mongo
+      MONGO_PORT: 27017
+      MONGO_DB: chat_db
     depends_on:
       - db
       - redis
       - elasticsearch
+      - mongo
     volumes:
       - static_volume:/homeswap/static
       - ./main_hms/logs:/homeswap/main_hms/logs
@@ -122,19 +127,38 @@ services:
     networks:
       - main_hms_network
     
-  # update-hosts:
-  #   image: busybox:latest
-  #   depends_on:
-  #     - elasticsearch
+  # mongo:
+  #   image: mongo:latest
+  #   restart: always
+  #   container_name: mongodb
+  #   ports:
+  #     - "27017:27017"
   #   volumes:
-  #     - ./add_elasticsearch_to_hosts.sh:/scripts/add_elasticsearch_to_hosts.sh
-  #   entrypoint: ["/bin/sh", "/scripts/add_elasticsearch_to_hosts.sh"]
+  #     - mongo-data:/data/db
+  #     - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+  #   networks:
+  #     - main_hms_network
+
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - main_hms_network
 
 volumes:
   postgres_data:
   static_volume:
   esdata01:
   media_volume:
+  mongo-data:
 
 networks:
   main_hms_network:
