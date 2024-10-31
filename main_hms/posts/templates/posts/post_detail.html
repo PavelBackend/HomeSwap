@@ -23,9 +23,7 @@
     </div>
     {% else %}
     <div>
-        <p class="post-content" style="text-align: justify; font-size: 1.1rem; line-height: 1.6;">
-            Контакты: {{ post.user.email }}
-        </p>
+        <a href="{% url 'chat:chat_room' post.slug %}" class="btn btn-danger" style="width: 45%; padding: 10px 0; text-align: center;">Чат с автором</a>
     </div>
     {% endif %}
 </div>

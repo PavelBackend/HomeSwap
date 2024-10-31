@@ -9,7 +9,7 @@ class ChatView(View):
         messages_collection = db['messages']
         
         messages = messages_collection.find({'room': room_name}).sort('timestamp')
-        
+
         message_list = [{'message': msg['message']} for msg in messages]
         context = {'room_name': room_name, 'messages': message_list}
         
