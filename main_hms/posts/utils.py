@@ -2,4 +2,4 @@ import hashlib
 
 def generate_chat_hash(post_slug, author_slug, viewer_slug):
     combined_string = f"{post_slug}-{author_slug}-{viewer_slug}"
-    return hashlib.sha256(combined_string.encode()).hexdigest()
+    return hashlib.sha256(combined_string.encode()).hexdigest() + "devisor" + str(post_slug)

@@ -4,6 +4,8 @@ import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+BASE_URL = 'http://127.0.0.1:8000'
+
 env = environ.Env()
 env_file = os.path.join(BASE_DIR, '.env')
 if os.path.exists(os.path.join(BASE_DIR, '.env.local')):
