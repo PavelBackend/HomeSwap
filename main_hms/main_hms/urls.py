@@ -3,8 +3,7 @@ from django.urls import path, include, reverse_lazy
 from main_hms import settings
 from django.conf.urls.static import static
 from .views import *
-from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
-from main_hms.views import access_denied
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetCompleteView
 
 
 urlpatterns = [
@@ -44,6 +43,7 @@ urlpatterns = [
     path("users/", include("users.urls", namespace="users")),
     path("posts/", include("posts.urls", namespace="posts")),
     path('chat/', include('chat.urls', namespace="chat")),
+    path("payment/", include("payment.urls", namespace="payment")),
     path('api/', include('api.urls', namespace="api")),
 ]
 

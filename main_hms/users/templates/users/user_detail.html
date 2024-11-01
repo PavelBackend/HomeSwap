@@ -13,6 +13,10 @@
     {% endfor %}
 {% endif %}
 
+<h1>Профиль {{ user.username }}</h1>
+
+<a href="{% url 'payment:checkout' %}" class="btn btn-primary" style="width: 45%; padding: 10px 0; text-align: center;">Оплитить продвинутую версию сайта</a>
+
 {% if user.avatar %}
     <img src="{{ user.avatar.url }}" alt="{{ user.username }}" class="img-thumbnail" style="max-width: 150px;">
 {% else %}

@@ -1,0 +1,9 @@
+{% extends 'main_hms/base.html' %}
+
+{% block content %}
+    <div class="container bg-white shadow-md p-5" style="width:500px; border-radius:20px;">
+        <h2>Payment Successful</h2>
+        <p>Thank you for your purchase! Your order has been successfully processed.</p>
+        <a href="{% url 'home' %}" class="btn btn-primary navbar-btn text-white">Back to Home</a>
+    </div>
+{% endblock %}

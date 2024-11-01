@@ -1,0 +1,9 @@
+{% extends 'main_hms/base.html' %}
+
+{% block content %}
+    <div class="container bg-white shadow-md p-5" style="width:500px; border-radius:20px;">
+        <h2>Payment Failed</h2>
+        <p>Unfortunately, your payment could not be processed. Please try again.</p>
+        <a href="{% url 'payment:checkout' %}" class="btn btn-primary navbar-btn text-white">Retry Payment</a>
+    </div>
+{% endblock %}

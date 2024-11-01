@@ -31,10 +31,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    # Другие ваши приложения
+    # Другие мои приложения
     "posts.apps.PostsConfig",
     "chat.apps.ChatConfig",
     "api.apps.ApiConfig",
+    "payment.apps.PaymentConfig",
     "main_hms",
 
     # Сторонние приложения
@@ -224,3 +225,8 @@ CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
 CELERY_RESULT_EXTENDED = env('CELERY_RESULT_EXTENDED')
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = env('CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP')
 CELERY_BEAT_SCHEDULER = env('CELERY_BEAT_SCHEDULER')
+
+#STRIPE
+STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
+STRIPE_API_VERSION = env('STRIPE_API_VERSION')

@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import View
 from django.contrib.auth import get_user_model
+from posts.utils import generate_chat_hash
 from .models import Posts
 from .forms import PostForm
 from django.utils.text import slugify
@@ -33,7 +34,13 @@ def generate_unique_slug(post):
 class PostDetail(View):
     def get(self, request, slug):
         post = get_object_or_404(Posts, slug=slug)
-        context = {'post': post}
+
+        # Генерация хэша для чата
+        author_slug = post.user.slug
+        viewer_slug = request.user.slug
+        chat_hash = generate_chat_hash(slug, author_slug, viewer_slug)
+
+        context = {'post': post, 'chat_hash': chat_hash}
         return render(request, 'posts/post_detail.html', context)
 
 
