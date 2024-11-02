@@ -9,7 +9,6 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, 
 
 
 urlpatterns = [
-    path("auth_test/", auth_test, name="auth_test"),
     path("", index, name='home'),
     path("about/", about, name='about'),
 

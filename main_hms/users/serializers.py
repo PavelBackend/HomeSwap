@@ -16,21 +16,20 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         }
 
     def validate_username(self, value):
-        """Проверка уникальности имени пользователя."""
         if User.objects.filter(username=value).exists():
             raise serializers.ValidationError("Это имя пользователя уже занято.")
         return value
 
     def validate_email(self, value):
-        """Проверка уникальности электронной почты."""
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError("Этот email уже зарегистрирован.")
         return value
 
     def create(self, validated_data):
-        """Создание нового пользователя с хэшированным паролем."""
         user = User(
             username=validated_data['username'],
+            name=validated_data['name'],
+            surname=validated_data['surname'],
             email=validated_data['email']
         )
         user.set_password(validated_data['password'])

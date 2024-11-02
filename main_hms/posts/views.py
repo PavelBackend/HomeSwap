@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 User = get_user_model()
 
 def generate_unique_slug(post):
+    logger.info('Генерация уникального slug поста')
     original_slug = slugify(post.title)
     slug = original_slug
     queryset = Posts.objects.filter(slug__startswith=original_slug).order_by('-slug')
@@ -35,9 +36,9 @@ def generate_unique_slug(post):
 
 class PostDetail(View):
     def get(self, request, slug):
+        logger.info('Получение поста')
         post = get_object_or_404(Posts, slug=slug)
 
-        # Генерация хэша для чата
         author_slug = post.user.slug
         viewer_slug = request.user.slug
         chat_hash = generate_chat_hash(slug, author_slug, viewer_slug)
@@ -92,10 +93,12 @@ class PostsView(View):
 
 class PostCreate(View):
     def get(self, request):
+        logger.info('Отображение формы создания поста')
         form = PostForm()
         return render(request, 'posts/post_create.html', {'form': form})
 
     def post(self, request):
+        logger.info('Создание нового поста')
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
@@ -119,11 +122,13 @@ class PostCreate(View):
 
 class PostUpdate(View):
     def get(self, request, slug):
+        logger.info('Отображение формы редактирования поста')
         post = get_object_or_404(Posts, slug=slug)
         form = PostForm(instance=post)
         return render(request, 'posts/post_update.html', {'form': form, 'post': post})
 
     def post(self, request, slug):
+        logger.info('Обновление поста')
         post = get_object_or_404(Posts, slug=slug)
         form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
@@ -134,6 +139,7 @@ class PostUpdate(View):
 
 class PostDelete(View):
     def post(self, request, slug):
+        logger.info('Удаление поста')
         post = get_object_or_404(Posts, slug=slug)
         post.delete()
         logger.info('Удаление поста: %s', post.title)

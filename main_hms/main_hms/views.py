@@ -26,6 +26,7 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 
 
 def index(request):
+    logger.info('Главная страница')
     if request.user.is_authenticated:
         user = request.user
     else:
@@ -35,6 +36,7 @@ def index(request):
 
 
 def about(request):
+    logger.info('О нас')
     if request.user.is_authenticated:
         user = request.user
     else:
@@ -47,29 +49,35 @@ class UserRegistrationView(generics.GenericAPIView):
     serializer_class = RegistrationSerializer
 
     def get(self, request, *args, **kwargs):
+        logger.info("Пользователь зашел на страницу регистрации")
         return render(request, 'main_hms/register.html', {'title': 'Регистрация'})
 
     def post(self, request, *args, **kwargs):
+        logger.info("Пользователь отправил данные на регистрацию")
         logger.info("Полученные данные: %s", request.data)  # Логируем данные
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
+            logger.info("Валидация прошла успешно")
             user = serializer.save()  # Сохраняем пользователя
             logger.info("Пользователь успешно сохранён: %s", user)  # Логируем успешное сохранение
             return redirect('registration_success')
-        
-        logger.warning("Ошибки валидации: %s", serializer.errors)  # Логируем ошибки
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            logger.warning("Ошибки валидации: %s", serializer.errors)  # Логируем ошибки
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 def registration_success(request):
+    logger.info("Пользователь прошел регистрацию")
     return render(request, 'main_hms/success_reg.html', {'title': 'Регистрация прошла успешно'})
 
 
 class LoginView(View):
     def get(self, request):
+        logger.info("Пользователь зашел на страницу входа")
         return render(request, 'main_hms/login.html')
 
     def post(self, request):
+        logger.info("Пользователь отправил данные на вход")
         email = request.POST.get('email')
         password = request.POST.get('password')
 
@@ -88,19 +96,17 @@ class LoginView(View):
         
 
 def auth_success(request):
+    logger.info("Пользователь прошел вход")
     return render(request, 'main_hms/success_auth.html', {'title': 'Авторизация прошла успешно'})
 
 
 def access_denied(request):
+    logger.info("Пользователь не авторизован")
     return render(request, 'main_hms/access_denied.html')
 
 
 class UserLogoutView(View):
     def get(self, request):
+        logger.info("Пользователь вышел из аккаунта")
         logout(request)
         return redirect('home')
-
-        
-@login_required
-def auth_test(request):
-    return Response({'message': 'Ты авторизован!'})
