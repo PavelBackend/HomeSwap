@@ -1,19 +1,16 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from django.contrib.auth import authenticate
-from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
+
 
 class RegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'name', 'surname', 'email', 'password')
-        extra_kwargs = {
-            'password': {'write_only': True}
-        }
+        fields = ("id", "username", "name", "surname", "email", "password")
+        extra_kwargs = {"password": {"write_only": True}}
 
     def validate_username(self, value):
         if User.objects.filter(username=value).exists():
@@ -27,11 +24,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User(
-            username=validated_data['username'],
-            name=validated_data['name'],
-            surname=validated_data['surname'],
-            email=validated_data['email']
+            username=validated_data["username"],
+            name=validated_data["name"],
+            surname=validated_data["surname"],
+            email=validated_data["email"],
         )
-        user.set_password(validated_data['password'])
+        user.set_password(validated_data["password"])
         user.save()
         return user

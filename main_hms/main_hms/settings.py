@@ -1,28 +1,30 @@
 from pathlib import Path
 import os
 import environ
+from datetime import timedelta
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-BASE_URL = 'http://127.0.0.1:8000'
+BASE_URL = "http://127.0.0.1:8000"
 
 env = environ.Env()
-env_file = os.path.join(BASE_DIR, '.env')
-if os.path.exists(os.path.join(BASE_DIR, '.env.local')):
-    env_file = os.path.join(BASE_DIR, '.env.local')
+env_file = os.path.join(BASE_DIR, ".env")
+if os.path.exists(os.path.join(BASE_DIR, ".env.local")):
+    env_file = os.path.join(BASE_DIR, ".env.local")
 environ.Env.read_env(env_file=env_file)
 
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env("SECRET_KEY")
 
-MONGO_INITDB_ROOT_USERNAME=env('MONGO_INITDB_ROOT_USERNAME')
-MONGO_INITDB_ROOT_PASSWORD=env('MONGO_INITDB_ROOT_PASSWORD')
-MONGO_HOST = env('MONGO_HOST', default='localhost')
-MONGO_PORT = int(env('MONGO_PORT', default=27017))
-MONGO_DB = env('MONGO_DB', default='chat_db')
+MONGO_INITDB_ROOT_USERNAME = env("MONGO_INITDB_ROOT_USERNAME")
+MONGO_INITDB_ROOT_PASSWORD = env("MONGO_INITDB_ROOT_PASSWORD")
+MONGO_HOST = env("MONGO_HOST", default="localhost")
+MONGO_PORT = int(env("MONGO_PORT", default=27017))
+MONGO_DB = env("MONGO_DB", default="chat_db")
 
-DEBUG = env('DEBUG')
+DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     "users.apps.UsersConfig",
@@ -32,14 +34,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     # Другие мои приложения
     "posts.apps.PostsConfig",
     "chat.apps.ChatConfig",
     "api.apps.ApiConfig",
     "payment.apps.PaymentConfig",
     "main_hms",
-
     # Сторонние приложения
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
@@ -50,19 +50,19 @@ INSTALLED_APPS = [
     "debug_toolbar",
 ]
 
-ELASTICSEARCH_DSL={
-    'default': {
-        'hosts': 'http://elasticsearch:9200',
+ELASTICSEARCH_DSL = {
+    "default": {
+        "hosts": "http://elasticsearch:9200",
     }
 }
 
-ASGI_APPLICATION = 'main_hms.asgi.application'
+ASGI_APPLICATION = "main_hms.asgi.application"
 
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('redis', 6379)],
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)],
         },
     },
 }
@@ -90,7 +90,7 @@ INTERNAL_IPS = ["127.0.0.1", "172.17.0.1", "host.docker.internal", "172.19.0.1"]
 # INTERNAL_IPS = get_internal_ips()
 
 DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': lambda request: True,
+    "SHOW_TOOLBAR_CALLBACK": lambda request: True,
 }
 
 ROOT_URLCONF = "main_hms.urls"
@@ -112,35 +112,33 @@ TEMPLATES = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
 }
 
 AUTHENTICATION_BACKENDS = [
-    'main_hms.backends.EmailBackend',
-    'django.contrib.auth.backends.ModelBackend',
+    "main_hms.backends.EmailBackend",
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
-from datetime import timedelta
-
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'ALGORITHM': env('ALGORITHM'),
-    'SIGNING_KEY': env('SIGNING_KEY'),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "ALGORITHM": env("ALGORITHM"),
+    "SIGNING_KEY": env("SIGNING_KEY"),
 }
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT'),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": env("DB_NAME"),
+        "USER": env("DB_USER"),
+        "PASSWORD": env("DB_PASSWORD"),
+        "HOST": env("DB_HOST"),
+        "PORT": env("DB_PORT"),
     }
 }
 
@@ -151,7 +149,7 @@ CACHES = {
     }
 }
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = "users.User"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -169,49 +167,47 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'main_hms/logs/main.log',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": "main_hms/logs/main.log",
         },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
         },
     },
-    'loggers': {
-        'django': {
-            'handlers': ['file', 'console'],
-            'level': 'WARNING',
-            'propagate': False,
+    "loggers": {
+        "django": {
+            "handlers": ["file", "console"],
+            "level": "WARNING",
+            "propagate": False,
         },
-        'django.db.backends': {
-            'handlers': ['file', 'console'],
-            'level': 'WARNING',
-            'propagate': False,
+        "django.db.backends": {
+            "handlers": ["file", "console"],
+            "level": "WARNING",
+            "propagate": False,
         },
-        '__main__': {
-            'handlers': ['file', 'console'],
-            'level': 'DEBUG',
-            'propagate': False,
+        "__main__": {
+            "handlers": ["file", "console"],
+            "level": "DEBUG",
+            "propagate": False,
         },
-        'main_hms': {
-            'handlers': ['file', 'console'],
-            'level': 'DEBUG',
-            'propagate': False,
+        "main_hms": {
+            "handlers": ["file", "console"],
+            "level": "DEBUG",
+            "propagate": False,
         },
-        '': {
-            'handlers': ['file', 'console'],
-            'level': 'DEBUG',
-            'propagate': True,
+        "": {
+            "handlers": ["file", "console"],
+            "level": "DEBUG",
+            "propagate": True,
         },
     },
 }
-
-
 
 
 LANGUAGE_CODE = "en-us"
@@ -230,28 +226,30 @@ MEDIA_ROOT = BASE_DIR / "media/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_URL="/login/"
-LOGIN_REDIRECT_URL="/"
+LOGIN_URL = "/login/"
+LOGIN_REDIRECT_URL = "/"
 
-#SMTP
-EMAIL_BACKEND = env('EMAIL_BACKEND')
-EMAIL_HOST = env('EMAIL_HOST')
-EMAIL_PORT = env('EMAIL_PORT')
-EMAIL_USE_SSL = env('EMAIL_USE_SSL')
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
-SERVER_EMAIL = env('SERVER_EMAIL')
-EMAIL_ADMIN = env('EMAIL_ADMIN')
+# SMTP
+EMAIL_BACKEND = env("EMAIL_BACKEND")
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_PORT = env("EMAIL_PORT")
+EMAIL_USE_SSL = env("EMAIL_USE_SSL")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
+SERVER_EMAIL = env("SERVER_EMAIL")
+EMAIL_ADMIN = env("EMAIL_ADMIN")
 
-#Celery
-CELERY_BROKER_URL = env('CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
-CELERY_RESULT_EXTENDED = env('CELERY_RESULT_EXTENDED')
-CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = env('CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP')
-CELERY_BEAT_SCHEDULER = env('CELERY_BEAT_SCHEDULER')
+# Celery
+CELERY_BROKER_URL = env("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
+CELERY_RESULT_EXTENDED = env("CELERY_RESULT_EXTENDED")
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = env(
+    "CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP"
+)
+CELERY_BEAT_SCHEDULER = env("CELERY_BEAT_SCHEDULER")
 
-#STRIPE
-STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
-STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
-STRIPE_API_VERSION = env('STRIPE_API_VERSION')
+# STRIPE
+STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISHABLE_KEY")
+STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
+STRIPE_API_VERSION = env("STRIPE_API_VERSION")

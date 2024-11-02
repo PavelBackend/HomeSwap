@@ -3,11 +3,12 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 
+
 class User(AbstractUser):
     slug = models.SlugField(max_length=50, unique=True, blank=True)
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50, blank=True, null=True)
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -29,4 +30,4 @@ class User(AbstractUser):
         verbose_name_plural = "Users"
 
     def get_absolute_url(self):
-        return reverse('user_detail', kwargs={'username': self.username})
+        return reverse("user_detail", kwargs={"username": self.username})

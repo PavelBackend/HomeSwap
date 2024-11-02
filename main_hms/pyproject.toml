@@ -33,8 +33,17 @@ stripe = "^11.2.0"
 hiredis = "^3.0.0"
 django-redis = "^5.4.0"
 django-debug-toolbar = "^4.4.6"
+flake8 = "^7.1.1"
 
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.10.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.black]
+line-length = 88
+target-version = ["py39"]
