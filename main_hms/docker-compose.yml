@@ -15,6 +15,7 @@ services:
       - redis
       - elasticsearch
       - mongo
+      - rabbitmq
     volumes:
       - static_volume:/homeswap/static
       - ./main_hms/logs:/homeswap/main_hms/logs
@@ -38,6 +39,7 @@ services:
     depends_on:
       - db
       - redis
+      - rabbitmq
     networks:
       - main_hms_network
 
@@ -49,6 +51,7 @@ services:
     depends_on:
       - redis
       - db
+      - rabbitmq
     networks:
       - main_hms_network
 
@@ -142,12 +145,26 @@ services:
     networks:
       - main_hms_network
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - main_hms_network
+
 volumes:
   postgres_data:
   static_volume:
   esdata01:
   media_volume:
   mongo-data:
+  rabbitmq-data:
 
 networks:
   main_hms_network:
