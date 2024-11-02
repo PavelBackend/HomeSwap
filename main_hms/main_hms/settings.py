@@ -46,13 +46,13 @@ INSTALLED_APPS = [
     "channels",
     "django_celery_beat",
     "django_celery_results",
-    "django_elasticsearch_dsl"
+    "django_elasticsearch_dsl",
+    "debug_toolbar",
 ]
 
 ELASTICSEARCH_DSL={
     'default': {
         'hosts': 'http://elasticsearch:9200',
-        # 'http_auth': ('username', 'password')
     }
 }
 
@@ -68,6 +68,8 @@ CHANNEL_LAYERS = {
 }
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    # "debug_toolbar.middleware.show_toolbar",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -77,12 +79,26 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+INTERNAL_IPS = ["127.0.0.1", "172.17.0.1", "host.docker.internal", "172.19.0.1"]
+
+# import socket
+
+# def get_internal_ips():
+#     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+#     return [ip[:-1] + "1" for ip in ips] + ["127.0.0.1"]
+
+# INTERNAL_IPS = get_internal_ips()
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': lambda request: True,
+}
+
 ROOT_URLCONF = "main_hms.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, 'main_hms/templates')],
+        "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -125,6 +141,13 @@ DATABASES = {
         'PASSWORD': env('DB_PASSWORD'),
         'HOST': env('DB_HOST'),
         'PORT': env('DB_PORT'),
+    }
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://redis:6379/1",
     }
 }
 

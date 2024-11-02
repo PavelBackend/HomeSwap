@@ -10,6 +10,8 @@ from django.utils.text import slugify
 from django.core.exceptions import ObjectDoesNotExist
 from .documents import *
 import logging
+from django.core.cache import cache
+
 
 logger = logging.getLogger(__name__)
 

@@ -1,8 +1,10 @@
+import debug_toolbar
 from django.contrib import admin
 from django.urls import path, include, reverse_lazy
 from main_hms import settings
 from django.conf.urls.static import static
 from .views import *
+from debug_toolbar.toolbar import debug_toolbar_urls
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetCompleteView
 
 
@@ -38,7 +40,6 @@ urlpatterns = [
     path('authorization_success/', auth_success, name='auth_success'),
     path("login/", LoginView.as_view(), name="user_login"),
     path("logout/", UserLogoutView.as_view(), name="user_logout"),
-    # path('access_denied/', access_denied, name='access_denied'),
     path("admin/", admin.site.urls),
     path("users/", include("users.urls", namespace="users")),
     path("posts/", include("posts.urls", namespace="posts")),
@@ -48,5 +49,9 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ]
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

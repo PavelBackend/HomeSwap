@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-django = "4.2"
+django = "4.2.9"
 gunicorn = "23.0.0"
 asgiref = "3.8.1"
 packaging = "24.1"
@@ -30,6 +30,9 @@ django-elasticsearch-dsl = "^8.0"
 pillow = "^11.0.0"
 motor = "^3.6.0"
 stripe = "^11.2.0"
+hiredis = "^3.0.0"
+django-redis = "^5.4.0"
+django-debug-toolbar = "^4.4.6"
 
 
 [build-system]
