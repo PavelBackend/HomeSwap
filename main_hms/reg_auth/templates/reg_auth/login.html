@@ -5,7 +5,7 @@
 
 {% block content %}
 <h1>Вход пользователя</h1>
-<form id="login-form" method="post" action="{% url 'user_login' %}">
+<form id="login-form" method="post" action="{% url 'reg_auth:user_login' %}">
     {% csrf_token %}
     {% if error %}
         <div class="alert alert-danger">
@@ -21,6 +21,6 @@
         <input type="password" class="form-control" id="password" name="password" required>
     </div>
     <button type="submit" class="btn btn-primary">Войти</button>
-    <a href="{% url 'password-reset' %}" class="btn btn-link">Забыли пароль?</a>
+    <a href="{% url 'reg_auth:password-reset' %}" class="btn btn-link">Забыли пароль?</a>
 </form>
 {% endblock %}

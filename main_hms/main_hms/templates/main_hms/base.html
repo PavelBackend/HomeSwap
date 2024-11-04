@@ -52,14 +52,14 @@
                             <a class="nav-link" id="profile-link">Профиль {{ user.username }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'user_logout' %}">Выйти</a>
+                            <a class="nav-link" href="{% url 'reg_auth:user_logout' %}">Выйти</a>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'user_registration' %}">Зарегистрироваться</a>
+                            <a class="nav-link" href="{% url 'reg_auth:user_registration' %}">Зарегистрироваться</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'user_login' %}">Войти</a>
+                            <a class="nav-link" href="{% url 'reg_auth:user_login' %}">Войти</a>
                         </li>
                     {% endif %}
                 </ul>

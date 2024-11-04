@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "chat.apps.ChatConfig",
     "api.apps.ApiConfig",
     "payment.apps.PaymentConfig",
+    "reg_auth.apps.RegAuthConfig",
     "main_hms",
     # Сторонние приложения
     "rest_framework",
@@ -173,7 +174,7 @@ LOGGING = {
         "file": {
             "level": "DEBUG",
             "class": "logging.FileHandler",
-            "filename": "main_hms/logs/main.log",
+            "filename": "logs/main.log",
         },
         "console": {
             "level": "DEBUG",
@@ -182,27 +183,27 @@ LOGGING = {
     },
     "loggers": {
         "django": {
-            "handlers": ["file", "console"],
+            "handlers": ["file"],
             "level": "WARNING",
             "propagate": False,
         },
         "django.db.backends": {
-            "handlers": ["file", "console"],
+            "handlers": ["file"],
             "level": "WARNING",
             "propagate": False,
         },
         "__main__": {
-            "handlers": ["file", "console"],
+            "handlers": ["file"],
             "level": "DEBUG",
             "propagate": False,
         },
         "main_hms": {
-            "handlers": ["file", "console"],
+            "handlers": ["file"],
             "level": "DEBUG",
             "propagate": False,
         },
         "": {
-            "handlers": ["file", "console"],
+            "handlers": ["file"],
             "level": "DEBUG",
             "propagate": True,
         },

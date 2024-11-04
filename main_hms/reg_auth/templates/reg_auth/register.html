@@ -26,16 +26,12 @@
         <label for="password" class="form-label">Пароль</label>
         <input type="password" class="form-control" id="password" name="password" required>
     </div>
-    <!-- <div class="mb-3">
-        <label for="avatar_url" class="form-label">Аватар</label>
-        <input type="avatar_url" class="form-control" id="avatar_url" name="avatar_url">
-    </div> -->
     <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
 </form>
 
 <script>
 async function registerUser(event) {
-    event.preventDefault(); // Предотвращаем перезагрузку страницы
+    event.preventDefault();
 
     const username = document.getElementById('username').value;
     const name = document.getElementById('name').value;
@@ -53,11 +49,9 @@ async function registerUser(event) {
 
     if (response.ok) {
         const data = await response.json();
-        // Сохраните токены в localStorage или sessionStorage
         localStorage.setItem('access_token', data.access);
         localStorage.setItem('refresh_token', data.refresh);
-        // Перенаправьте пользователя на защищённую страницу
-        window.location.href = '/registration_success/'; // или другая страница
+        window.location.href = '/registration_success/';
     } else {
         const errorData = await response.json();
         alert('Ошибка: ' + JSON.stringify(errorData));
