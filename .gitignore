@@ -1,9 +1,7 @@
-.venv
 __pycache__/
 .env
-.env-non-dev
-dump.rdb
-main_hms/static/
-homeswap.jpg
 .env.local
+dump.rdb
+static/
 logs/
+fixtures/
