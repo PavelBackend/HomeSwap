@@ -7,11 +7,21 @@
 ## 🚀 Features
 
 - **User Profiles**: Create and manage profiles with information about your home and availability.
+  <img src="HS_photos/profile_detail.png" alt="profile_detail.png" width="600"/>
 - **Home Listings**: Post detailed information about your home, including pictures, descriptions, and exchange rules.
+  <img src="HS_photos/post_detail.png" alt="post_detail.png" width="600"/>
 - **Real-Time Chat**: Communicate with potential home exchangers via an integrated chat system.
+  <img src="HS_photos/chat.png" alt="chat.png" width="600"/>
 - **Secure Transactions**: Built-in trust verification and user authentication.
+  <img src="HS_photos/auth.png" alt="auth.png" width="600"/> 
+- **Registration**: Registration with JWT-tokens                                        
+  <img src="HS_photos/reg.png" alt="reg.png" width="600"/>
+- **Password reset**: Using Mail                                       
+  <img src="HS_photos/pass_reset.png" alt="pass_reset.png" width="600"/>
 - **Notifications**: Receive alerts about new home exchange requests and updates on ongoing transactions.
-- **Moderation and Reviews**: Rate and leave feedback for exchange partners to enhance trust within the community.
+  <img src="HS_photos/new_message.png" alt="new_message.png" width="600"/>
+- **ElasticSearch implemented**                                                               
+  <img src="HS_photos/posts.png" alt="posts.png" width="600"/>
 
 ---
 
@@ -40,12 +50,6 @@ This project is licensed under proprietary terms.
 © Pavel. All rights reserved.
 
 This code is provided for viewing purposes only. No permission is granted to use, copy, modify, or distribute this code for any purpose, personal or commercial. Unauthorized use of this code is strictly prohibited.
-
----
-
-## 🌍 Contributing
-
-At this stage, the project is closed for external contributions. However, you can contact me with suggestions or feedback if you would like to discuss future collaboration opportunities.
 
 ---
 
