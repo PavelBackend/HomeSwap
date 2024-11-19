@@ -13,7 +13,7 @@ urlpatterns = [
     path("posts/", include("posts.urls", namespace="posts")),
     path("chat/", include("chat.urls", namespace="chat")),
     path("payment/", include("payment.urls", namespace="payment")),
-    path("api/", include("api.urls", namespace="api")),
+    # path("api/", include("api.urls", namespace="api")),
     path("", index, name="home"),
     path("about/", about, name="about"),
 ]

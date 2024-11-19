@@ -20,7 +20,7 @@ def generate_unique_slug(post):
     original_slug = slugify(post.title)
     slug = original_slug
     queryset = Posts.objects.filter(slug__startswith=original_slug).order_by("-slug")
-
+    
     if queryset.exists():
         last_slug = queryset.first().slug
         try:
@@ -28,7 +28,8 @@ def generate_unique_slug(post):
             slug = f"{original_slug}-{slug_num + 1}"
         except (ValueError, IndexError):
             slug = f"{original_slug}-1"
-
+    else:
+        slug = original_slug
     return slug
 
 
