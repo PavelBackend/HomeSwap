@@ -1,6 +1,7 @@
 __pycache__/
 .env
 .env.local
+venv
 dump.rdb
 static/
 logs/

@@ -41,10 +41,10 @@ class UserRegistrationView(generics.GenericAPIView):
             logger.info(
                 "Пользователь успешно сохранён: %s", user
             )
-            return redirect("reg_auth:registration_success")
+            return redirect("reg_auth:reg_success")
         else:
             logger.warning("Ошибки валидации: %s", serializer.errors)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return render(request, "reg_auth/register.html", {"errors": serializer.errors})
 
 
 def registration_success(request):

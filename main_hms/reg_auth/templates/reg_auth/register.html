@@ -29,6 +29,8 @@
     <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
 </form>
 
+<div id="error-message" style="color: red;"></div>
+
 <script>
 async function registerUser(event) {
     event.preventDefault();
@@ -39,22 +41,39 @@ async function registerUser(event) {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    const response = await fetch('/register/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, name, surname, email, password }),
-    });
+    document.getElementById('error-message').textContent = '';
 
-    if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('access_token', data.access);
-        localStorage.setItem('refresh_token', data.refresh);
-        window.location.href = '/registration_success/';
-    } else {
-        const errorData = await response.json();
-        alert('Ошибка: ' + JSON.stringify(errorData));
+    try {
+        const response = await fetch('/register/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, name, surname, email, password }),
+        });
+
+        if (response.ok) {
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else {
+                const data = await response.json();
+                localStorage.setItem('access_token', data.access);
+                localStorage.setItem('refresh_token', data.refresh);
+                window.location.href = '/registration_success/';
+            }
+        } else {
+            const errorData = await response.json();
+            let errorMessages = '';
+            for (const key in errorData) {
+                if (errorData.hasOwnProperty(key)) {
+                    errorMessages += `${key}: ${errorData[key].join(', ')}\n`;
+                }
+            }
+            document.getElementById('error-message').textContent = errorMessages;
+        }
+    } catch (error) {
+        console.error("Ошибка при регистрации:", error);
+        document.getElementById('error-message').textContent = 'Произошла ошибка при отправке данных. Попробуйте снова.';
     }
 }
 </script>
