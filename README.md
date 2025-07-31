@@ -56,6 +56,6 @@ This code is provided for viewing purposes only. No permission is granted to use
 ## 📫 Contact
 
 - **Email**: [pavelsamo555@gmail.com](mailto:pavelsamo555@gmail.com)
-- **Telegram/WhatsApp**: [PavelBackendDev](https://t.me/PavelBackendDev)
+- **Telegram**: [PavelBackendDev](https://t.me/PavelBackendDev)
 
 Thank you for your interest in **HomeSwap**! Stay tuned for updates and improvements.
