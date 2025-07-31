@@ -56,6 +56,6 @@ This code is provided for viewing purposes only. No permission is granted to use
 ## 📫 Contact
 
 - **Email**: [pavelsamo555@gmail.com](mailto:pavelsamo555@gmail.com)
-- **LinkedIn**: [https://clck.ru/3Dt2Su](https://clck.ru/3Dt2Su)
+- **Telegram/WhatsApp**: [PavelBackendDev](https://t.me/PavelBackendDev)
 
 Thank you for your interest in **HomeSwap**! Stay tuned for updates and improvements.
